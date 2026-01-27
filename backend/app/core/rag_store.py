@@ -24,7 +24,7 @@ from app.core.gemini_embeddings import GeminiEmbeddings
 @dataclass
 class RAGConfig:
     supabase_url: str = field(default_factory=lambda: os.getenv("SUPABASE_URL", ""))
-    supabase_key: str = field(default_factory=lambda: os.getenv("SUPABASE_KEY", ""))
+    supabase_key: str = field(default_factory=lambda: os.getenv("SUPABASE_SECRET_KEY") or os.getenv("SUPABASE_KEY", ""))
     embedding_model: str = "gemini-embedding-001"
     embedding_dim: int = 768
 
@@ -53,7 +53,7 @@ class RAGStore:
         self.namespace = namespace
         self.config = RAGConfig(
             supabase_url=supabase_url or os.getenv("SUPABASE_URL", ""),
-            supabase_key=supabase_key or os.getenv("SUPABASE_KEY", ""),
+            supabase_key=supabase_key or os.getenv("SUPABASE_SECRET_KEY") or os.getenv("SUPABASE_KEY", ""),
             **{k: v for k, v in kwargs.items() if hasattr(RAGConfig, k)}
         )
         

@@ -37,7 +37,8 @@ results = rag.search("energetic fast opening style")
 ```bash
 # Supabase
 SUPABASE_URL=https://xxx.supabase.co
-SUPABASE_KEY=your-service-role-key
+# 推荐使用新的 secret key 格式 (从 Dashboard > Settings > API > Secret key 获取)
+SUPABASE_SECRET_KEY=sb_secret_your_secret_key_here
 DATABASE_URL=postgresql://postgres:password@db.xxx.supabase.co:5432/postgres
 
 # Gemini API
@@ -46,7 +47,7 @@ GEMINI_API_KEY=your-gemini-api-key
 # Optional
 EMBEDDING_MODEL=gemini-embedding-001
 EMBEDDING_DIM=768
-CHAT_MODEL=gemini-2.0-flash-exp
+CHAT_MODEL=gemini-2.0-flash-exp  # 用于查询改写、相关性评分、答案生成
 MATCH_COUNT=5
 RRF_K=60
 GRAPH_DEPTH=2
@@ -63,25 +64,19 @@ See [SPECIFICATION.md](./SPECIFICATION.md) for:
 
 ## Setup
 
-1. **Run initial migration**
+1. **Run SQL migration**
    ```bash
    # 在 Supabase SQL Editor 中运行
-   supabase/migrations/20260125_init_graph_schema.sql
+   supabase/migrations/20260126_init_gemini_schema.sql
    ```
 
-2. **Run embedding dimension update**
-   ```bash
-   # 在 Supabase SQL Editor 中运行
-   supabase/migrations/20260126_update_embedding_dim.sql
-   ```
-
-3. **Install dependencies**
+2. **Install dependencies**
    ```bash
    cd backend
    pip install -e .
    ```
 
-4. **Start ingesting**
+3. **Start ingesting**
 
 ## Core API
 
@@ -156,6 +151,33 @@ cp -r backend/app/core your_project/rag
 ```
 
 Then `from rag import RAGStore`.
+
+## Supabase API Key 配置
+
+### 推荐方式（新）
+使用 Supabase Dashboard 生成的新格式 secret key（`sb_secret_...`）：
+
+1. 进入 Supabase Dashboard > Project Settings > API > API Keys
+2. 点击 "Create new API Keys"
+3. 复制 "Secret key" 的值（以 `sb_secret_` 开头）
+4. 在 `.env` 中设置：
+   ```bash
+   SUPABASE_SECRET_KEY=sb_secret_your_actual_key_here
+   ```
+
+### 向后兼容
+如果你已有旧的 service_role JWT key，仍然可以使用：
+```bash
+SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+```
+
+代码会优先使用 `SUPABASE_SECRET_KEY`，如果未设置则回退到 `SUPABASE_KEY`。
+
+### 新格式的优势
+- 易于轮换：无需重启服务即可更换密钥
+- 更安全：无法在浏览器中使用（返回 401）
+- 独立性：不依赖 JWT secret
+- 灵活性：可为不同后端组件创建多个密钥
 
 ## Technical Details
 
