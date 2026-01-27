@@ -5,9 +5,9 @@ load_dotenv()
 
 class Config:
     """统一配置管理"""
-    # Supabase
+    # Supabase - 优先使用新的 secret key 格式
     SUPABASE_URL = os.getenv("SUPABASE_URL")
-    SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+    SUPABASE_KEY = os.getenv("SUPABASE_SECRET_KEY") or os.getenv("SUPABASE_KEY")
     DATABASE_URL = os.getenv("DATABASE_URL")
 
     # Gemini API
