@@ -70,9 +70,12 @@ Question: {state['question']}"""
 
 # Standalone nodes using default config (backward compat)
 from app.services.supabase_ops import supabase_ops
-from langchain_openai import OpenAIEmbeddings
+from app.core.gemini_embeddings import GeminiEmbeddings
 
-_emb = OpenAIEmbeddings(model=config.EMBEDDING_MODEL)
+_emb = GeminiEmbeddings(
+    model=config.EMBEDDING_MODEL,
+    output_dimensionality=config.EMBEDDING_DIM
+)
 _llm = ChatOpenAI(model=config.CHAT_MODEL, temperature=0)
 
 

@@ -6,24 +6,24 @@ requires-python = ">=3.11"
 dependencies = [
     # LangChain / LangGraph
     "langchain>=0.3.0",
-    "langchain-openai>=0.2.0",
     "langchain-core>=0.3.0",
     "langgraph>=0.2.0",
-    
+
     # Supabase
     "supabase>=2.4.0",
-    
+
     # API
     "fastapi>=0.110.0",
     "uvicorn>=0.29.0",
-    
+
     # Database
     "psycopg[pool]>=3.1.18",
-    
+
     # Core
-    "openai>=1.12.0",
+    "google-genai>=1.0.0",
     "pydantic>=2.0.0",
     "python-dotenv>=1.0.0",
+    "numpy>=1.24.0",
 ]
 
 [project.optional-dependencies]

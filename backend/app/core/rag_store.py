@@ -18,16 +18,16 @@ import hashlib
 from dataclasses import dataclass, field
 
 from supabase import create_client, Client
-from langchain_openai import OpenAIEmbeddings
+from app.core.gemini_embeddings import GeminiEmbeddings
 
 
 @dataclass
 class RAGConfig:
     supabase_url: str = field(default_factory=lambda: os.getenv("SUPABASE_URL", ""))
     supabase_key: str = field(default_factory=lambda: os.getenv("SUPABASE_KEY", ""))
-    embedding_model: str = "text-embedding-3-small"
-    embedding_dim: int = 1536
-    
+    embedding_model: str = "gemini-embedding-001"
+    embedding_dim: int = 768
+
     # Search defaults
     match_count: int = 5
     rrf_k: int = 60
@@ -58,7 +58,10 @@ class RAGStore:
         )
         
         self.client: Client = create_client(self.config.supabase_url, self.config.supabase_key)
-        self._embeddings = OpenAIEmbeddings(model=self.config.embedding_model)
+        self._embeddings = GeminiEmbeddings(
+            model=self.config.embedding_model,
+            output_dimensionality=self.config.embedding_dim
+        )
     
     # =========================================================================
     # SETUP
