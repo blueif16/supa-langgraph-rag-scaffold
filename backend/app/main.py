@@ -27,9 +27,12 @@ app = FastAPI(title="RAG API")
 # Default workflow
 from app.graph.workflow import app as agent_app
 from app.services.supabase_ops import supabase_ops
-from langchain_openai import OpenAIEmbeddings
+from app.core.gemini_embeddings import GeminiEmbeddings
 
-_emb = OpenAIEmbeddings(model=config.EMBEDDING_MODEL)
+_emb = GeminiEmbeddings(
+    model=config.EMBEDDING_MODEL,
+    output_dimensionality=config.EMBEDDING_DIM
+)
 
 
 @app.post("/chat")

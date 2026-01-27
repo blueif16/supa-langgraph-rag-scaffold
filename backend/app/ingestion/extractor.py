@@ -7,11 +7,12 @@ Uses LLM to find relationships between content pieces.
 from __future__ import annotations
 from typing import List
 
-from langchain_openai import ChatOpenAI, OpenAIEmbeddings
+from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
 
 from app.config import config
 from app.services.supabase_ops import supabase_ops
+from app.core.gemini_embeddings import GeminiEmbeddings
 
 
 class Edge(BaseModel):
@@ -23,7 +24,10 @@ class Extraction(BaseModel):
     edges: List[Edge]
 
 
-_emb = OpenAIEmbeddings(model=config.EMBEDDING_MODEL)
+_emb = GeminiEmbeddings(
+    model=config.EMBEDDING_MODEL,
+    output_dimensionality=config.EMBEDDING_DIM
+)
 _llm = ChatOpenAI(model=config.CHAT_MODEL, temperature=0)
 
 

@@ -9,9 +9,10 @@ services:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_KEY=${SUPABASE_KEY}
       - DATABASE_URL=${DATABASE_URL}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-text-embedding-3-small}
-      - CHAT_MODEL=${CHAT_MODEL:-gpt-4o-mini}
+      - GEMINI_API_KEY=${GEMINI_API_KEY}
+      - EMBEDDING_MODEL=${EMBEDDING_MODEL:-gemini-embedding-001}
+      - EMBEDDING_DIM=${EMBEDDING_DIM:-768}
+      - CHAT_MODEL=${CHAT_MODEL:-gemini-2.0-flash-exp}
       - MATCH_COUNT=${MATCH_COUNT:-5}
       - RRF_K=${RRF_K:-60}
       - GRAPH_DEPTH=${GRAPH_DEPTH:-2}

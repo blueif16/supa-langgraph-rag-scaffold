@@ -10,10 +10,11 @@ class Config:
     SUPABASE_KEY = os.getenv("SUPABASE_KEY")
     DATABASE_URL = os.getenv("DATABASE_URL")
 
-    # OpenAI
-    OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "text-embedding-3-small")
-    CHAT_MODEL = os.getenv("CHAT_MODEL", "gpt-4o-mini")
+    # Gemini API
+    GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    EMBEDDING_MODEL = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
+    EMBEDDING_DIM = int(os.getenv("EMBEDDING_DIM", "768"))
+    CHAT_MODEL = os.getenv("CHAT_MODEL", "gemini-2.0-flash-exp")
 
     # RAG 参数
     MATCH_COUNT = int(os.getenv("MATCH_COUNT", "5"))
