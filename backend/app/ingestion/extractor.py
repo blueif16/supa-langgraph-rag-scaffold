@@ -7,7 +7,7 @@ Uses LLM to find relationships between content pieces.
 from __future__ import annotations
 from typing import List
 
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from pydantic import BaseModel, Field
 
 from app.config import config
@@ -28,7 +28,7 @@ _emb = GeminiEmbeddings(
     model=config.EMBEDDING_MODEL,
     output_dimensionality=config.EMBEDDING_DIM
 )
-_llm = ChatOpenAI(model=config.CHAT_MODEL, temperature=0)
+_llm = ChatGoogleGenerativeAI(model=config.CHAT_MODEL, temperature=0)
 
 
 def ingest_document(content: str, metadata: dict | None = None) -> dict:

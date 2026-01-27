@@ -2,6 +2,10 @@
 Examples - How to use the RAG scaffold
 ======================================
 """
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 # Example 1: Basic usage
 def basic():
