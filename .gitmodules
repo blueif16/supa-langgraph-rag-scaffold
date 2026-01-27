@@ -1,0 +1,3 @@
+[submodule "supa-langgraph-rag-scaffold"]
+	path = supa-langgraph-rag-scaffold
+	url = git@github.com:blueif16/supa-langgraph-rag-scaffold.git
