@@ -7,7 +7,7 @@ Retrieve → Grade → (Rewrite if needed) → Generate
 from __future__ import annotations
 from typing import TYPE_CHECKING, Callable
 
-from langchain_openai import ChatOpenAI
+from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.messages import HumanMessage
 
 from app.config import config
@@ -17,13 +17,13 @@ if TYPE_CHECKING:
     from app.core import RAGStore
 
 
-def create_nodes(rag: "RAGStore", llm: ChatOpenAI | None = None) -> dict[str, Callable]:
+def create_nodes(rag: "RAGStore", llm: ChatGoogleGenerativeAI | None = None) -> dict[str, Callable]:
     """
     Create workflow nodes bound to a RAGStore.
-    
+
     Returns dict with: retrieve, grade, rewrite, generate
     """
-    _llm = llm or ChatOpenAI(model=config.CHAT_MODEL, temperature=0)
+    _llm = llm or ChatGoogleGenerativeAI(model=config.CHAT_MODEL, temperature=0)
     
     def retrieve(state: AgentState) -> dict:
         """Search knowledge base."""
@@ -76,7 +76,7 @@ _emb = GeminiEmbeddings(
     model=config.EMBEDDING_MODEL,
     output_dimensionality=config.EMBEDDING_DIM
 )
-_llm = ChatOpenAI(model=config.CHAT_MODEL, temperature=0)
+_llm = ChatGoogleGenerativeAI(model=config.CHAT_MODEL, temperature=0)
 
 
 def retrieve_node(state: AgentState) -> dict:
