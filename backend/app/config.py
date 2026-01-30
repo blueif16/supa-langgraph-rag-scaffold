@@ -1,7 +1,9 @@
 import os
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 
-load_dotenv()
+# 从当前工作目录开始向上搜索 .env 文件
+# 这样无论从哪里执行，都能找到项目根目录的 .env
+load_dotenv(find_dotenv(usecwd=True))
 
 class Config:
     """统一配置管理"""

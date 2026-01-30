@@ -17,8 +17,12 @@ import json
 import hashlib
 from dataclasses import dataclass, field
 
+from dotenv import load_dotenv, find_dotenv
 from supabase import create_client, Client
 from app.core.gemini_embeddings import GeminiEmbeddings
+
+# 确保加载 .env，从当前工作目录向上搜索
+load_dotenv(find_dotenv(usecwd=True))
 
 
 @dataclass
