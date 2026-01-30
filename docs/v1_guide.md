@@ -34,7 +34,7 @@ create table documents (
   id bigint primary key generated always as identity,
   content text not null,
   metadata jsonb default '{}', -- Stores filters (e.g., user_id, doc_type)
-  embedding vector(1536),      -- OpenAI text-embedding-3-small
+  embedding vector(768),       -- Google Gemini text-embedding-004
   
   -- Create BM25 Index for Hybrid Search
   constraint documents_content_idx check (content is not null)
@@ -75,7 +75,7 @@ This function implements the **Reciprocal Rank Fusion (RRF)** algorithm directly
 ```sql
 create or replace function retrieve_context_mesh(
   query_text text,
-  query_embedding vector(1536),
+  query_embedding vector(768),
   match_count int,
   rrf_k int default 60,
   graph_depth int default 2
@@ -144,7 +144,7 @@ The 2026 ingestion standard adds a validation step to ensure the LLM doesn't hal
 ```python
 import json
 from supabase import create_client
-from langchain_openai import OpenAIEmbeddings, ChatOpenAI
+from langchain_google_genai import GoogleGenerativeAIEmbeddings, ChatGoogleGenerativeAI
 from langchain_core.pydantic_v1 import BaseModel, Field
 from typing import List
 
@@ -159,8 +159,8 @@ class GraphExtraction(BaseModel):
 
 # Setup
 supabase = create_client(SUPABASE_URL, SUPABASE_KEY)
-llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
-embeddings = OpenAIEmbeddings(model="text-embedding-3-small")
+llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp", temperature=0)
+embeddings = GoogleGenerativeAIEmbeddings(model="models/text-embedding-004")
 
 def ingest_document(chunk_text: str, metadata: dict):
     # 1. Embed and Save Node
@@ -443,7 +443,7 @@ supabase = "^2.4.0"
 fastapi = "^0.110.0"
 uvicorn = "^0.29.0"
 psycopg = {extras = ["pool"], version = "^3.1.18"}
-openai = "^1.12.0"
+langchain-google-genai = "^2.0.0"
 
 ```
 
