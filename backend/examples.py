@@ -40,13 +40,13 @@ def batch():
 # Example 3: LangGraph agent
 def agent():
     from app.core import RAGStore, create_search_tool
-    from langchain_openai import ChatOpenAI
+    from langchain_google_genai import ChatGoogleGenerativeAI
     from langgraph.prebuilt import create_react_agent
     
     rag = RAGStore(namespace="agent_kb")
     tool = create_search_tool(rag, name="search", description="Search knowledge")
     
-    llm = ChatOpenAI(model="gpt-4o-mini")
+    llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash-exp")
     agent = create_react_agent(llm, tools=[tool])
     
     result = agent.invoke({"messages": [{"role": "user", "content": "What's a good hook style?"}]})
