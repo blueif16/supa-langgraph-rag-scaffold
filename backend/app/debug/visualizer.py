@@ -194,12 +194,14 @@ class RAGVisualizer:
         )
         
         net.from_nx(G)
-        
-        # Configure physics
+
+        # Configure physics and options first
         if self.config.physics_enabled:
             net.set_options(self._get_physics_options())
-        
-        net.show_buttons(filter_=["physics", "nodes", "edges"])
+
+        # Note: show_buttons() has compatibility issues with some PyVis versions
+        # Commenting out to avoid AttributeError with dict.configure
+        # net.show_buttons(filter_=["physics", "nodes", "edges"])
         
         # Save
         output_path = Path(output_path)

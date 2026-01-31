@@ -4,12 +4,18 @@ A comprehensive debugging and visualization toolkit for your RAG system.
 
 ## Installation
 
-```bash
-# Install with debug dependencies
-pip install -e ".[debug]"
+### Option 1: Install in Parent Project (Recommended)
 
-# Or install all dependencies
-pip install -e ".[all]"
+If this scaffold is a subdirectory of your main project, add it to your parent project's `requirements.txt`:
+
+```txt
+# In your project root's requirements.txt
+-e ./supa-langgraph-rag-scaffold/backend[debug]
+```
+
+Then install from your project root:
+```bash
+pip install -r requirements.txt
 ```
 
 Then run the SQL migration:
